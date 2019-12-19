@@ -28,9 +28,13 @@ namespace MarkovChains
                 {
                     firstKey.Append(sentence[m + i] + " ");
                     if (i == 0 && m == gramDimension - 2)
+                    {
                         startsList.Add(firstKey.ToString().Substring(0, firstKey.Length - 1));
+                    }
                     if (m == gramDimension - 2)
+                    {
                         secondKey.Append(sentence[m + i + 1]);
+                    }
                 }
 
                 firstKey.Remove(firstKey.Length - 1, 1);
@@ -43,9 +47,13 @@ namespace MarkovChains
         private static void AddNGram(Dictionary<string, Dictogram> markovModel, string firstKey, string secondKey)
         {
             if (markovModel.ContainsKey(firstKey))
+            {
                 markovModel[firstKey].Update(new[] {secondKey});
+            }
             else
+            {
                 markovModel[firstKey] = new Dictogram(new[] {secondKey});
+            }
         }
     }
 }

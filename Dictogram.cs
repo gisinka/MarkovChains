@@ -16,12 +16,15 @@ namespace MarkovChains
             _tokensCount = 0;
             _random = new Random();
             if (iterable != null)
+            {
                 Update(iterable);
+            }
         }
 
         public void Update(string[] iterable)
         {
             foreach (var word in iterable)
+            {
                 if (ContainsKey(word))
                 {
                     this[word] += 1;
@@ -33,12 +36,16 @@ namespace MarkovChains
                     _tokensCount += 1;
                     _keysCount += 1;
                 }
+            }
         }
 
         public int CountWord(string word)
         {
             if (ContainsKey(word))
+            {
                 return this[word];
+            }
+
             return 0;
         }
 

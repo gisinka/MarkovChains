@@ -17,7 +17,9 @@ namespace MarkovChains
             {
                 var key = Console.ReadKey();
                 if (key.Key == ConsoleKey.Backspace)
+                {
                     break;
+                }
                 Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 20)));
                 Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 20)));
                 Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 20)));
