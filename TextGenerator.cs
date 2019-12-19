@@ -12,7 +12,7 @@ namespace MarkovChains
             var text = new List<string>();
             var currentWord = ChooseRandomStart(startsList);
             text.Add(currentWord);
-            var random = new Random(Environment.TickCount);
+            var random = new Random();
             for (var i = 1; i < wordsCount; i++)
             {
                 var currentDictogram = markovModel.ContainsKey(currentWord)
@@ -28,7 +28,7 @@ namespace MarkovChains
 
         private static string ChooseRandomStart(List<string> startsList)
         {
-            var random = new Random(Environment.TickCount);
+            var random = new Random();
             return startsList[random.Next(0, startsList.Count - 1)];
         }
     }

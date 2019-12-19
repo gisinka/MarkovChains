@@ -27,7 +27,7 @@ namespace MarkovChains
                 {
                     firstKey.Append(sentence[m + i] + " ");
                     if (i == 0 && m == gramDimension - 2)
-                        startsList.Add(firstKey.ToString());
+                        startsList.Add(firstKey.ToString().Substring(0, firstKey.Length - 1));
                     if (m == gramDimension - 2)
                         secondKey.Append(sentence[m + i + 1]);
                 }

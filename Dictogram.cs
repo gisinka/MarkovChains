@@ -14,7 +14,7 @@ namespace MarkovChains
         {
             _keysCount = 0;
             _tokensCount = 0;
-            _random = new Random(Environment.TickCount);
+            _random = new Random();
             if (iterable != null)
                 Update(iterable);
         }
