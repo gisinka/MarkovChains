@@ -3,7 +3,7 @@ using System.Text;
 
 namespace MarkovChains
 {
-    class MarkovModelMaker
+    internal static class MarkovModelMaker
     {
         public static Dictionary<string, Dictogram> CreateMarkovModel(List<List<string>> text, List<string> startsList)
         {
@@ -13,6 +13,7 @@ namespace MarkovChains
                 CreateNGramKeys(sentence, markovModel, 2, startsList);
                 CreateNGramKeys(sentence, markovModel, 3, startsList);
             }
+
             return markovModel;
         }
 
@@ -31,6 +32,7 @@ namespace MarkovChains
                     if (m == gramDimension - 2)
                         secondKey.Append(sentence[m + i + 1]);
                 }
+
                 firstKey.Remove(firstKey.Length - 1, 1);
                 AddNGram(markovModel, firstKey.ToString(), secondKey.ToString());
                 firstKey.Clear();
@@ -41,9 +43,9 @@ namespace MarkovChains
         private static void AddNGram(Dictionary<string, Dictogram> markovModel, string firstKey, string secondKey)
         {
             if (markovModel.ContainsKey(firstKey))
-                markovModel[firstKey].Update(new string[] {secondKey});
+                markovModel[firstKey].Update(new[] {secondKey});
             else
-                markovModel[firstKey] = new Dictogram(new string[] { secondKey });
+                markovModel[firstKey] = new Dictogram(new[] {secondKey});
         }
     }
 }

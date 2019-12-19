@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MarkovChains
 {
-    internal class TextGenerator
+    internal static class TextGenerator
     {
         public static string GenerateText(Dictionary<string, Dictogram> markovModel, List<string> startsList,
             int wordsCount)

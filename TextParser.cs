@@ -29,12 +29,12 @@ namespace MarkovChains
                     word.Append(sentence[i]);
                 else if (word.Length > 0)
                 {
-                    wordsList.Add(word.ToString().ToLower());
+                    wordsList.Add(word.ToString().ToLowerInvariant());
                     word.Clear();
                 }
             }
             if (word.Length > 0)
-                wordsList.Add(word.ToString().ToLower());
+                wordsList.Add(word.ToString().ToLowerInvariant());
             return wordsList;
         }
     }
