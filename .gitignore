@@ -133,3 +133,5 @@ $RECYCLE.BIN/
 _NCrunch*
 /.vs/Lesson/v16/Server/sqlite3/storage.ide
 /.vs/Lesson/v16/Server/sqlite3/db.lock
+/.vscode/launch.json
+/.vscode/tasks.json
