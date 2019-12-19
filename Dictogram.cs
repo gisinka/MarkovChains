@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace MarkovChains
 {
@@ -9,18 +8,18 @@ namespace MarkovChains
     {
         private int _keysCount;
         private int _tokensCount;
-        private Random random;
+        private readonly Random _random;
 
-        public Dictogram(List<string> iterable = null)
+        public Dictogram(string[] iterable = null)
         {
             this._keysCount = 0;
             this._tokensCount = 0;
-            this.random = new Random(System.Environment.TickCount);
+            this._random = new Random(System.Environment.TickCount);
             if (iterable != null)
                 this.Update(iterable);
         }
 
-        public void Update(List<string> iterable)
+        public void Update(string[] iterable)
         {
             foreach (var word in iterable)
             {
@@ -47,12 +46,12 @@ namespace MarkovChains
 
         public string ReturnRandomWord()
         {
-            return this.Keys.ToList()[random.Next(0, Keys.ToList().Count - 1)];
+            return this.Keys.ToList()[_random.Next(0, Keys.ToList().Count - 1)];
         }
 
         public string ReturnWeightedRandomWord()
         {
-            var randomIndex = random.Next(0, this._tokensCount - 1);
+            var randomIndex = _random.Next(0, this._tokensCount - 1);
             var index = 0;
             var keysList = this.Keys.ToList();
             for (var i = 0; i < this._keysCount; i++)
