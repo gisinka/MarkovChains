@@ -20,9 +20,7 @@ namespace MarkovChains
                 {
                     break;
                 }
-                Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 20)));
-                Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 20)));
-                Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 20)));
+                Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 50)));
             }
         }
     }
