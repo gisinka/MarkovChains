@@ -12,7 +12,6 @@ namespace MarkovChains
             var text = File.ReadAllText("data.txt");
             var sentences = TextParser.ParseSentences(text);
             var markovModel = MarkovModelMaker.CreateMarkovModel(sentences, startsList);
-            int wordsCount;
             var random = new Random(System.Environment.TickCount);
             while (true)
             {
