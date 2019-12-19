@@ -4,9 +4,10 @@ using System.Text;
 
 namespace MarkovChains
 {
-    class TextParser
+    static class TextParser
     {
-        public static readonly char[] Separators = { '.', '!', '?', ':', ';', '(', ')' };
+        private static readonly char[] Separators = {'.', '!', '?', ':', ';', '(', ')'};
+
         public static List<List<string>> ParseSentences(string text)
         {
             var sentencesList = new List<List<string>>();
@@ -16,6 +17,7 @@ namespace MarkovChains
                 if (sentenceDivided.Count > 0)
                     sentencesList.Add(sentenceDivided);
             }
+
             return sentencesList;
         }
 
@@ -24,15 +26,16 @@ namespace MarkovChains
             var wordsList = new List<string>();
             var word = new StringBuilder();
             for (var i = 0; i < sentence.Length; i++)
-            {
                 if (sentence[i] == '\'' || char.IsLetter(sentence[i]))
+                {
                     word.Append(sentence[i]);
+                }
                 else if (word.Length > 0)
                 {
                     wordsList.Add(word.ToString().ToLowerInvariant());
                     word.Clear();
                 }
-            }
+
             if (word.Length > 0)
                 wordsList.Add(word.ToString().ToLowerInvariant());
             return wordsList;
