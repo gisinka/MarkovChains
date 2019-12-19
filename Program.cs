@@ -4,34 +4,22 @@ using System.IO;
 
 namespace MarkovChains
 {
-    static class Program
+    internal static class Program
     {
-        static void Main()
+        private static void Main()
         {
             var startsList = new List<string>();
             var text = File.ReadAllText("data.txt");
             var sentences = TextParser.ParseSentences(text);
-            var markovModel = MyMarkovModelMaker.CreateMarkovModel(sentences, startsList);
+            var markovModel = MarkovModelMaker.CreateMarkovModel(sentences, startsList);
             int wordsCount;
-            try
-            {
-                wordsCount = int.Parse(Console.ReadLine());
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine(error);
-                wordsCount = 140;
-
-            }
+            var random = new Random(System.Environment.TickCount);
             while (true)
             {
                 var key = Console.ReadKey();
                 if (key.Key == ConsoleKey.Backspace)
                     break;
-                else
-                {
-                    Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, wordsCount));
-                }
+                Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 140)));
             }
         }
     }

@@ -1,37 +1,49 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+using System.Text;
 
 namespace MarkovChains
 {
     class MarkovModelMaker
     {
-        public static Dictionary<string, Dictogram> MakeMarkovModel(string[] data)
+        public static Dictionary<string, Dictogram> CreateMarkovModel(List<List<string>> text, List<string> startsList)
         {
             var markovModel = new Dictionary<string, Dictogram>();
-            for (var i = 0; i < data.Length - 1; i++)
+            foreach (var sentence in text)
             {
-                if (markovModel.ContainsKey(data[i]))
-                    markovModel[data[i]].Update(new string[] {data[i+1]});
-                else
-                    markovModel[data[i]] = new Dictogram(new string[] { data[i + 1] });
+                CreateNGramKeys(sentence, markovModel, 2, startsList);
+                CreateNGramKeys(sentence, markovModel, 3, startsList);
             }
-
             return markovModel;
         }
 
-        public static Dictionary<ImmutableArray<string>, Dictogram> MakeHigherOrderMarkovModel(int order, string[] data)
+        private static void CreateNGramKeys(List<string> sentence, Dictionary<string, Dictogram> markovModel,
+            int gramDimension, List<string> startsList)
         {
-            var markovModel = new Dictionary<ImmutableArray<string>, Dictogram>();
-            for (var i = 0; i < data.Length - order; i++)
+            var firstKey = new StringBuilder();
+            var secondKey = new StringBuilder();
+            for (var i = 0; i < sentence.Count - gramDimension + 1; i++)
             {
-                var window = ImmutableArray.Create(data, i, order);
-                if (markovModel.ContainsKey(window))
-                    markovModel[window].Update(new string[] {data[i+order]});
-                else
-                    markovModel[window] = new Dictogram(new string[] { data[i + order] });
+                for (var m = 0; m < gramDimension - 1; m++)
+                {
+                    firstKey.Append(sentence[m + i] + " ");
+                    if (i == 0 && m == gramDimension - 2)
+                        startsList.Add(firstKey.ToString());
+                    if (m == gramDimension - 2)
+                        secondKey.Append(sentence[m + i + 1]);
+                }
+                firstKey.Remove(firstKey.Length - 1, 1);
+                AddNGram(markovModel, firstKey.ToString(), secondKey.ToString());
+                firstKey.Clear();
+                secondKey.Clear();
             }
+        }
 
-            return markovModel;
+        private static void AddNGram(Dictionary<string, Dictogram> markovModel, string firstKey, string secondKey)
+        {
+            if (markovModel.ContainsKey(firstKey))
+                markovModel[firstKey].Update(new string[] {secondKey});
+            else
+                markovModel[firstKey] = new Dictogram(new string[] { secondKey });
         }
     }
 }
