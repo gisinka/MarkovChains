@@ -11,16 +11,27 @@ namespace MarkovChains
             var startsList = new List<string>();
             var text = File.ReadAllText("data.txt");
             var sentences = TextParser.ParseSentences(text);
-            var markovModel = MarkovModelMaker.CreateMarkovModel(sentences, startsList);
-            var random = new Random(System.Environment.TickCount);
+            var markovModel = new Dictionary<string, Dictogram>();
+            MarkovModelMaker.UpdateMarkovModel(sentences, startsList, markovModel);
+            var random = new Random(Environment.TickCount);
             while (true)
             {
-                var key = Console.ReadKey();
-                if (key.Key == ConsoleKey.Backspace)
+                Console.WriteLine("Введите команду:");
+                var command = Console.ReadLine();
+                switch (command)
                 {
-                    break;
+                    case "/next":
+                        Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 50)));
+                        break;
+                    case "/exit":
+                        Environment.Exit(0);
+                        break;
+                    case "/update":
+                        Console.WriteLine("Введите текст для занесения в модель:");
+                        var newText = TextParser.ParseSentences(Console.ReadLine());
+                        MarkovModelMaker.UpdateMarkovModel(newText, startsList, markovModel);
+                        break;
                 }
-                Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 50)));
             }
         }
     }

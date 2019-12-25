@@ -5,16 +5,13 @@ namespace MarkovChains
 {
     internal static class MarkovModelMaker
     {
-        public static Dictionary<string, Dictogram> CreateMarkovModel(List<List<string>> text, List<string> startsList)
+        public static void UpdateMarkovModel(List<List<string>> text, List<string> startsList, Dictionary<string, Dictogram> markovModel)
         {
-            var markovModel = new Dictionary<string, Dictogram>();
             foreach (var sentence in text)
             {
                 CreateNGramKeys(sentence, markovModel, 2, startsList);
                 CreateNGramKeys(sentence, markovModel, 3, startsList);
             }
-
-            return markovModel;
         }
 
         private static void CreateNGramKeys(List<string> sentence, Dictionary<string, Dictogram> markovModel,
