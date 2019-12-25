@@ -31,6 +31,11 @@ namespace MarkovChains
                         var newText = TextParser.ParseSentences(Console.ReadLine());
                         MarkovModelMaker.UpdateMarkovModel(newText, startsList, markovModel);
                         break;
+                    case "/count":
+                        var count = 0;
+                        foreach (var value in markovModel.Values) count += value.Keys.Count;
+                        Console.WriteLine("Пар начало-продолжение: {0}", count);
+                        break;
                 }
             }
         }
