@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MarkovModelLib;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -8,12 +9,12 @@ namespace MarkovChains
     {
         private static void Main()
         {
-            var startsList = new List<string>();
-            var text = File.ReadAllText("data.txt");
-            var sentences = TextParser.ParseSentences(text);
-            var markovModel = new Dictionary<string, Dictogram>();
-            MarkovModelMaker.UpdateMarkovModel(sentences, startsList, markovModel);
-            var random = new Random(Environment.TickCount);
+            var messageGenerator = new MarkovModelLib.MarkovModel(File.ReadAllText("data.txt"));
+            var modelLinks = new Dictionary<string, string>();
+            var random = new Random();
+            var name = "testCol";
+            messageGenerator.AddToDataBase("mongodb://localhost:27017", "isinka", name, 2);
+            messageGenerator = DataBaseConnector.GetFromDataBase("mongodb://localhost:27017", "isinka", name, 2);
             while (true)
             {
                 Console.WriteLine("Введите команду:");
@@ -21,20 +22,20 @@ namespace MarkovChains
                 switch (command)
                 {
                     case "/next":
-                        Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 50)));
+                        Console.WriteLine(messageGenerator.Generate(random.Next(3, 50)));
                         break;
                     case "/exit":
                         Environment.Exit(0);
                         break;
                     case "/update":
                         Console.WriteLine("Введите текст для занесения в модель:");
-                        var newText = TextParser.ParseSentences(Console.ReadLine());
-                        MarkovModelMaker.UpdateMarkovModel(newText, startsList, markovModel);
+                        messageGenerator.Update(Console.ReadLine());
                         break;
                     case "/count":
-                        var count = 0;
-                        foreach (var value in markovModel.Values) count += value.Keys.Count;
-                        Console.WriteLine("Пар начало-продолжение: {0}", count);
+                        Console.WriteLine(messageGenerator.Count());
+                        break;
+                    case "/clear":
+                        messageGenerator.Clear();
                         break;
                 }
             }
