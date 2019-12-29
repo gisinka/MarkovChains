@@ -14,7 +14,8 @@ namespace MarkovChains
             var markovModel = new Dictionary<string, Dictogram>();
             MarkovModelMaker.UpdateMarkovModel(sentences, startsList, markovModel);
             var random = new Random(Environment.TickCount);
-            while (true)
+            var isWork = true;
+            while (isWork)
             {
                 Console.WriteLine("Введите команду:");
                 var command = Console.ReadLine();
@@ -24,7 +25,7 @@ namespace MarkovChains
                         Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 50)));
                         break;
                     case "/exit":
-                        Environment.Exit(0);
+                        isWork = false;
                         break;
                     case "/update":
                         Console.WriteLine("Введите текст для занесения в модель:");
