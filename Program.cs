@@ -9,12 +9,9 @@ namespace MarkovChains
     {
         private static void Main()
         {
-            var messageGenerator = new MarkovModelLib.MarkovModel(File.ReadAllText("data.txt"));
-            var modelLinks = new Dictionary<string, string>();
             var random = new Random();
             var name = "testCol";
-            messageGenerator.AddToDataBase("mongodb://localhost:27017", "isinka", name, 2);
-            messageGenerator = DataBaseConnector.GetFromDataBase("mongodb://localhost:27017", "isinka", name, 2);
+            var messageGenerator = DataBaseConnector.GetFromDataBase("mongodb://localhost:27017", "test", name, 5);
             while (true)
             {
                 Console.WriteLine("Введите команду:");
@@ -25,6 +22,7 @@ namespace MarkovChains
                         Console.WriteLine(messageGenerator.Generate(random.Next(3, 50)));
                         break;
                     case "/exit":
+                        messageGenerator.AddToDataBase("mongodb://localhost:27017", "test", name, 5);
                         Environment.Exit(0);
                         break;
                     case "/update":
