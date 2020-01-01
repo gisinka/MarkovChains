@@ -22,7 +22,7 @@ namespace MarkovChains
                 switch (command)
                 {
                     case "/next":
-                        Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 50)));
+                        Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 30)));
                         break;
                     case "/exit":
                         isWork = false;
