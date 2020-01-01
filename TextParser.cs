@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MarkovChains
 {
     static class TextParser
     {
-        private static readonly char[] Separators = {'.', '!', '?', ':', ';', '(', ')'};
-
         public static List<List<string>> ParseSentences(string text)
         {
             var sentencesList = new List<List<string>>();
-            foreach (var sentence in text.Split(Separators, StringSplitOptions.RemoveEmptyEntries))
+            if (text.Length > 0 || !char.IsPunctuation(text[^1]))
+                text += ".";
+            foreach (Match sentence in Regex.Matches(text, @"[А-ЯЁ][\S\s]+?(?:[\S][^А-ЯЁ\.]){1,}(?:\.+|[?!])(?!(\s*[а-яё)\-""«0-9\.]))", RegexOptions.Multiline))
             {
-                var sentenceDivided = DivideWords(sentence);
+                var sentenceDivided = DivideWords(sentence.Value);
                 if (sentenceDivided.Count > 0)
                 {
                     sentencesList.Add(sentenceDivided);

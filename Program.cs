@@ -11,7 +11,7 @@ namespace MarkovChains
         {
             var random = new Random();
             var name = "testCol";
-            var messageGenerator = DataBaseConnector.GetFromDataBase("mongodb://localhost:27017", "test", name, 5);
+            var messageGenerator = DataBaseConnector.GetFromDataBase("", "", name, 5);
             while (true)
             {
                 Console.WriteLine("Введите команду:");
@@ -22,7 +22,7 @@ namespace MarkovChains
                         Console.WriteLine(messageGenerator.Generate(random.Next(3, 50)));
                         break;
                     case "/exit":
-                        messageGenerator.AddToDataBase("mongodb://localhost:27017", "test", name, 5);
+                        messageGenerator.AddToDataBase("", "", name, 5);
                         Environment.Exit(0);
                         break;
                     case "/update":
