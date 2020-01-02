@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace MarkovChains
@@ -8,12 +7,8 @@ namespace MarkovChains
     {
         private static void Main()
         {
-            var startsList = new List<string>();
-            var text = File.ReadAllText("data.txt");
-            var sentences = TextParser.ParseSentences(text);
-            var markovModel = new Dictionary<string, Dictogram>();
-            MarkovModelMaker.UpdateMarkovModel(sentences, startsList, markovModel);
-            var random = new Random(Environment.TickCount);
+            var random = new Random();
+            var messageGenerator = new MarkovModelLib.MarkovModel(File.ReadAllText("data.txt"));
             var isWork = true;
             while (isWork)
             {
@@ -22,20 +17,17 @@ namespace MarkovChains
                 switch (command)
                 {
                     case "/next":
-                        Console.WriteLine(TextGenerator.GenerateText(markovModel, startsList, random.Next(3, 30)));
+                        Console.WriteLine(messageGenerator.Generate(random.Next(3, 30)));
                         break;
                     case "/exit":
                         isWork = false;
                         break;
                     case "/update":
                         Console.WriteLine("Введите текст для занесения в модель:");
-                        var newText = TextParser.ParseSentences(Console.ReadLine());
-                        MarkovModelMaker.UpdateMarkovModel(newText, startsList, markovModel);
+                        messageGenerator.Update(Console.ReadLine());
                         break;
                     case "/count":
-                        var count = 0;
-                        foreach (var value in markovModel.Values) count += value.Keys.Count;
-                        Console.WriteLine("Пар начало-продолжение: {0}", count);
+                        Console.WriteLine(messageGenerator.Count());
                         break;
                 }
             }
